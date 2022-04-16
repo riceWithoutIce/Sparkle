@@ -56,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SparkleTex:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -72,11 +72,14 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
-    - _SparkleRange: 0
-    - _SparkleScale: 40
-    - _SparkleShine: 6.6
+    - _SparkleColor01: 0.124
+    - _SparkleOffset: 0
+    - _SparkleRange: 1.46
+    - _SparkleScale: 29
+    - _SparkleShine: 1.09
+    - _SparkleShineColor: 6.5
     - _SparkleSize: 0.5
-    - _SparkleSizeMin: 0.456
+    - _SparkleSizeMin: 0.263
     - _SparkleSpeedU: -0.5
     - _SparkleSpeedV: -1
     - _SpecularHighlights: 1
@@ -87,3 +90,5 @@ Material:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SparkleColor: {r: 18.164822, g: 18.164822, b: 18.164822, a: 1}
+    - _SparkleColor1: {r: 29.857058, g: 29.857058, b: 29.857058, a: 1}
+    - _SparkleColor2: {r: 128, g: 128, b: 128, a: 1}

@@ -7,14 +7,22 @@
 
         [Header(Sparkle)]
         _SparkleTex ("Sparkle texture (rgb: color, a: mask)", 2D) = "black" {}
-        [HDR]_SparkleColor ("Sparkle color", Color) = (1, 1, 1, 1)
+        [Header(Color)]
+        [HDR]_SparkleColor1 ("Sparkle color 1", Color) = (1, 1, 1, 1)
+        [HDR]_SparkleColor2 ("Sparkle color 2", Color) = (1, 1, 1, 1)
+        _SparkleColor01 ("Sparkle threshold", Range(0, 1)) = 0.5
+        [Header(Size Scale)]
         _SparkleScale ("Sparkle intensity", Range(0, 1000)) = 1
+        _SparkleRange ("Sparkle range", Range(0, 10)) = 1
         _SparkleSize ("Sparkle max size", Range(0, 0.5)) = 0.5
         _SparkleSizeMin ("Sparkle min size", Range(0, 0.5)) = 0.2
+        _SparkleOffset ("Sparkle offset", Range(0, 1)) = 0
+        [Header(Shine)]
+        _SparkleShine ("Sparkle shine", Range(0, 20)) = 0
+        _SparkleShineColor ("Sparkle shine color", Range(0, 20)) = 0
+        [Header(Speed)]
         _SparkleSpeedU ("Sparkle speed u", Range(-5, 5)) = 0
         _SparkleSpeedV ("Sparkle speed v", Range(-5, 5)) = 0
-        _SparkleShine ("Sparkle shine", Range(0, 20)) = 0
-        _SparkleRange ("Sparkle range", Range(0, 10)) = 1
     }
     SubShader
     {
@@ -65,17 +73,20 @@
                     fixed4 col = tex2D(_MainTex, i.uv) * _Color;
 
                     half2 uv = i.uv;
-                    half4 sparkleTex = tex2D(_SparkleTex, uv);
                     half nv = abs(dot(i.wsNormal, i.viewDir));
-                    half intensity = sparkleTex.a * pow(nv, _SparkleRange);
+                    col.rgb = Sparkle(col, uv, nv);
 
-                    half2 coord = half2(uv.x * _SparkleScale, uv.y * _SparkleScale);
-                    half2 coordFloor = floor(coord);
-                    coord -= coordFloor;
-                    half2 coordCenter = 0.5f;
-                    half3 sparkle = Sparkle(coord, coordFloor, coordCenter, intensity).xxx * _SparkleColor.rgb * sparkleTex.rgb;
+                    // half4 sparkleTex = tex2D(_SparkleTex, uv);
                     
-                    col.rgb += sparkle;
+                    // half intensity = sparkleTex.a * pow(nv, _SparkleRange);
+
+                    // half2 coord = half2(uv.x * _SparkleScale, uv.y * _SparkleScale);
+                    // half2 coordFloor = floor(coord);
+                    // coord -= coordFloor;
+                    // half2 coordCenter = 0.5f;
+                    // half3 sparkle = Sparkle(coord, coordFloor, coordCenter, intensity).xxx * _SparkleColor.rgb * sparkleTex.rgb;
+                    
+                    // col.rgb += sparkle;
 
                     return col;
                 }

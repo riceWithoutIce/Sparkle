@@ -16,13 +16,21 @@ Shader "Rice/Skybox/6 Sided Sparkle"
 
         [Header(Sparkle)]
         _SparkleTex ("Sparkle texture (rgb: color, a: mask)", 2D) = "black" {}
-        [HDR]_SparkleColor ("Sparkle color", Color) = (1, 1, 1, 1)
+        [HDR]_SparkleColor1 ("Sparkle color 1", Color) = (1, 1, 1, 1)
+        [HDR]_SparkleColor2 ("Sparkle color 2", Color) = (1, 1, 1, 1)
+        _SparkleColor01 ("Sparkle threshold", Range(0, 1)) = 0.5
+        [Header(Size Scale)]
         _SparkleScale ("Sparkle intensity", Range(0, 1000)) = 1
+        _SparkleRange ("Sparkle range", Range(0, 10)) = 1
         _SparkleSize ("Sparkle max size", Range(0, 0.5)) = 0.5
         _SparkleSizeMin ("Sparkle min size", Range(0, 0.5)) = 0.2
+        _SparkleOffset ("Sparkle offset", Range(0, 1)) = 0
+        [Header(Shine)]
+        _SparkleShine ("Sparkle shine", Range(0, 20)) = 0
+        _SparkleShineColor ("Sparkle shine color", Range(0, 20)) = 0
+        [Header(Speed)]
         _SparkleSpeedU ("Sparkle speed u", Range(-5, 5)) = 0
         _SparkleSpeedV ("Sparkle speed v", Range(-5, 5)) = 0
-        _SparkleShine ("Sparkle shine", Range(0, 20)) = 0
     }
 
     SubShader 
@@ -87,8 +95,10 @@ Shader "Rice/Skybox/6 Sided Sparkle"
                 half2 coordFloor = floor(coord);
                 coord -= coordFloor;
                 half2 coordCenter = 0.5f;
-                half3 sparkle = Sparkle(coord, coordFloor, coordCenter, intensity).xxx * _SparkleColor.rgb * sparkleTex.rgb;
-                c += sparkle;
+                half4 sparkle = Sparkle(coord, coordFloor, coordCenter, intensity);
+                sparkle.rgb *= sparkleTex.rgb;
+
+                c = lerp(c.rgb, sparkle.rgb, sparkle.a);
 
                 return half4(c, 1);
             }
